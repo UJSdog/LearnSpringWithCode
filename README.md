@@ -1,3 +1,3 @@
 # LearnSpringWithCode
 # manually type example code
-# randomly type description from my understanding
+# randomly type some description from my understanding
