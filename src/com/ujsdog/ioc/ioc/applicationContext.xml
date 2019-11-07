@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--静态直接返回就欧克-->
+    <bean id="userDao_s" class="com.ujsdog.ioc.ioc.StaticFactoryImpl" factory-method="createBean"/>
+    <!--非静态两步走-->
+        <!--设置工厂-->
+        <bean id="userDao_Factory" class="com.ujsdog.ioc.ioc.FactoryImpl"/>
+        <!--调用工厂-->
+    <bean id="userDao_f" factory-bean="userDao_Factory" factory-method="createUserDao" scope="singleton"/>
+    <!--
+    <bean id="userDao_f" factory-bean="userDao_Factory" factory-method="createUserDao" scope="prototype"/>
+    -->
+    <bean id="userDao" class="com.ujsdog.ioc.ioc.UserDaoImpl" />
+    <!--
+        id      唯一标识
+        name    可以有多个
+        class   类名要完整 使用全限定名
+        scope   作用域七个
+                1. singleton 单例
+                2. prototype 原型
+                ========下面的用的少=========
+                3. request 一个http请求一个单例 不同请求之间不同
+                4. session 同一个 http session 同一个单例 不同http 不同单例 仅在当前HTTP session内有效
+                5. globalSession 全局session中返回该session的同一个实例 仅在portlet上下文时有效
+                6. application 为每一个servletContext对象创建一个实例，仅在Web 相关的applicationContext中生效
+                7. websocket 为每一个webSocket对象创建一个实例，仅在Web 相关的applicationContext中生效
+
+
+        <constructor-arg>   构造器初始化
+        <property>          setter初始化
+
+        ref 上面两个的子元素or属性 对Beam实例进行引用
+        value 指定上面两个的常量值
+
+        list set map 三种collection的注入
+
+        entry map的子元素 用于设置键值对
+     -->
+
+    <!--
+        !!!下面的方法必须实现无参构造函数！
+    -->
+
+    <bean id="userService_p" class="com.ujsdog.ioc.ioc.UserServiceImpl">
+        <property name="ud" ref="userDao"/>
+        <!--注入集合-->
+        <property name="list">
+            <list>
+                <value>"我说两句话"</value>
+                <value>"这时第二句</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="userService_c" class="com.ujsdog.ioc.ioc.UserServiceImpl">
+        <!--
+            index 从0开始
+            ref 或者 value 属性 或者 子元素 指定参数值
+            type 指定类型
+        -->
+        <constructor-arg index="0" ref="userDao"/>
+        <property name="list">
+            <list>
+                <value>"我说两句话"</value>
+                <value>"这时第二句</value>
+            </list>
+        </property>
+    </bean>
+
+
+
+
+
+
+
+</beans>

@@ -1,0 +1,10 @@
+package com.ujsdog.ioc.aspectAnnotationJ;
+
+/**
+ * @author 茅伟龙
+ * @createTime 2019-11-05 20:09
+ */
+public interface UserDao {
+    void addUser();
+    void deleteUser();
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--原bean 实现-->
+    <bean id="userDao" class="com.ujsdog.ioc.AOP.UserDaoImpl"/>
+    <!--源切片-->
+    <bean id="myAspect" class="com.ujsdog.ioc.ProxyAOP.MyAspect"/>
+    <!--AOP代理-->
+    <bean id="userDaoProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <!--接口-->
+        <property name="proxyInterfaces" value="com.ujsdog.ioc.AOP.UserDao"/>
+        <!--实现-->
+        <property name="target" ref="userDao"/>
+        <!--切片-->
+        <property name="interceptorNames" value="myAspect"/>
+        <!--true:cglib false:jdk 动态代理-->
+        <property name="proxyTargetClass" value="true"/>
+    </bean>
+
+
+</beans>
